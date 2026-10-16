@@ -1,0 +1,10 @@
+{
+  "name": "VocalEar Studio",
+  "short_name": "VocalEar",
+  "description": "Entrenamiento auditivo y vocal",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#061321",
+  "theme_color": "#061321",
+  "icons": []
+}
