@@ -42,7 +42,7 @@ button,select{font:inherit}select{background:#102940;color:white;border:1px soli
 <section id="tuner" class="screen">
  <div class="eyebrow">PRÁCTICA VOCAL</div><h1>Medidor de afinación</h1><p class="muted">Afinador en vivo: permite el acceso al micrófono y canta una nota sostenida a volumen cómodo.</p>
  <div class="panel">
-  <div class="row between" style="flex-wrap:wrap"><button class="btn primary" id="micBtn">🎙 Activar micrófono</button><button class="btn" id="pauseBtn">Ⅱ Pausar</button><button class="btn" id="resetBtn">↻ Reiniciar</button><button class="btn" id="refBtn">🔊 Nota A4</button></div>
+  <div class="panel" style="margin:0 0 14px"><label for="targetNote">Nota objetivo para practicar</label><select id="targetNote"><option value="60">Do4 (C4)</option><option value="62">Re4 (D4)</option><option value="64">Mi4 (E4)</option><option value="65">Fa4 (F4)</option><option value="67">Sol4 (G4)</option><option value="69" selected>La4 (A4)</option><option value="71">Si4 (B4)</option><option value="72">Do5 (C5)</option><option value="57">La3 (A3)</option><option value="55">Sol3 (G3)</option><option value="52">Mi3 (E3)</option></select><p class="small" id="targetInfo">Objetivo: La4 · 440 Hz. El indicador compara tu voz con esta nota.</p></div><div class="row between" style="flex-wrap:wrap"><button class="btn primary" id="micBtn">🎙 Activar micrófono</button><button class="btn" id="pauseBtn">Ⅱ Pausar</button><button class="btn" id="resetBtn">↻ Reiniciar</button><button class="btn" id="refBtn">🔊 Nota A4</button></div>
   <div class="noteCircle" id="noteCircle"><div class="small">NOTA DETECTADA</div><div class="note" id="note">—</div><div class="hz" id="hz">— Hz</div><div class="status" id="status">MICRÓFONO INACTIVO</div></div>
   <div class="row" style="justify-content:center;gap:8px;flex-wrap:wrap"><button class="btn" data-tone="flat">↓ Bemol</button><button class="btn goldbtn" data-tone="in" >✓ Afinada</button><button class="btn" data-tone="sharp">↑ Sostenido</button></div>
   <div class="sectionhead"><h2>Desviación de afinación</h2><strong id="accuracy" style="color:var(--gold2)">— cents</strong></div><div class="progressline"><span id="accuracybar" style="width:0%"></span></div>
@@ -82,8 +82,9 @@ function setPitch(freq){
  const sorted=[...pitchHistory].sort((a,b)=>a-b); const median=sorted[Math.floor(sorted.length/2)];
  smoothedFreq = smoothedFreq==null ? median : (0.72*smoothedFreq + 0.28*median);
  freq=smoothedFreq;
- const midi=Math.round(69+12*Math.log2(freq/440)); const target=440*Math.pow(2,(midi-69)/12);
- const cents=Math.round(1200*Math.log2(freq/target)); const noteName=noteNames[(midi%12+12)%12]+(Math.floor(midi/12)-1);
+ const midi=Math.round(69+12*Math.log2(freq/440)); const detectedTarget=440*Math.pow(2,(midi-69)/12); const noteName=noteNames[(midi%12+12)%12]+(Math.floor(midi/12)-1);
+ const targetMidi=Number(document.getElementById("targetNote").value); const target=440*Math.pow(2,(targetMidi-69)/12);
+ const cents=Math.round(1200*Math.log2(freq/target));
  document.getElementById('note').textContent=noteName;
  document.getElementById('hz').textContent=freq.toFixed(1)+' Hz';
  document.getElementById('accuracy').textContent=(cents>0?'+':'')+cents+' cents';
@@ -94,7 +95,7 @@ function setPitch(freq){
  document.getElementById('status').style.color=color;
  document.getElementById('accuracybar').style.background=color;
  document.getElementById('status').textContent=Math.abs(cents)<=10?'AFINADA':(cents<0?'BAJA · SUBE UN POCO':'ALTA · BAJA UN POCO');
- document.getElementById('hint').textContent='Tono detectado en directo. Desviación respecto a la nota más cercana: '+(cents>0?'+':'')+cents+' cents.';
+ document.getElementById('hint').textContent='Tono detectado en directo. Desviación respecto a la nota objetivo '+midiName(targetMidi)+': '+(cents>0?'+':'')+cents+' cents.';
  lastNote=noteName;
 }
 function autoCorrelate(buf, sampleRate){
@@ -143,7 +144,10 @@ document.getElementById('micBtn').addEventListener('click',async()=>{
 });
 document.getElementById('pauseBtn').addEventListener('click',()=>{if(!micStream){document.getElementById('hint').textContent='Primero activa el micrófono.';return;}paused=!paused;document.getElementById('pauseBtn').textContent=paused?'▶ Continuar':'Ⅱ Pausar';if(paused){if(rafId)cancelAnimationFrame(rafId);}else tick();});
 document.getElementById('resetBtn').addEventListener('click',()=>{if(micStream){paused=false;document.getElementById('pauseBtn').textContent='Ⅱ Pausar';tick();}else{document.getElementById('note').textContent='—';document.getElementById('hz').textContent='— Hz';document.getElementById('status').textContent='MICRÓFONO INACTIVO';document.getElementById('accuracy').textContent='— cents';document.getElementById('hint').textContent='Pulsa «Activar micrófono» para comenzar.';}});
-document.getElementById('refBtn').addEventListener('click',async()=>{try{const ctx=new (window.AudioContext||window.webkitAudioContext)();await ctx.resume();const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sine';osc.frequency.value=440;gain.gain.value=0.12;osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+1);osc.onended=()=>ctx.close();document.getElementById('hint').textContent='Nota de referencia A4 (440 Hz).';}catch(e){document.getElementById('hint').textContent='No se pudo reproducir la referencia sonora.';}});
+function midiName(m){return noteNames[(m%12+12)%12]+(Math.floor(m/12)-1)}
+function targetFrequency(){return 440*Math.pow(2,(Number(document.getElementById('targetNote').value)-69)/12)}
+document.getElementById('targetNote').addEventListener('change',()=>{const m=Number(document.getElementById('targetNote').value),f=targetFrequency();document.getElementById('targetInfo').textContent='Objetivo: '+midiName(m)+' · '+f.toFixed(1)+' Hz. El indicador compara tu voz con esta nota.';document.getElementById('refBtn').textContent='🔊 Nota '+midiName(m);document.getElementById('hint').textContent='Nueva nota objetivo: '+midiName(m)+'. Pulsa «Nota '+midiName(m)+'» para escucharla.';});
+document.getElementById('refBtn').addEventListener('click',async()=>{try{const ctx=new (window.AudioContext||window.webkitAudioContext)();await ctx.resume();const osc=ctx.createOscillator(),gain=ctx.createGain();const m=Number(document.getElementById('targetNote').value);osc.type='sine';osc.frequency.value=targetFrequency();gain.gain.value=0.12;osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+1);osc.onended=()=>ctx.close();document.getElementById('hint').textContent='Nota de referencia '+midiName(m)+' ('+targetFrequency().toFixed(1)+' Hz). Cántala y observa los cents respecto al objetivo.';}catch(e){document.getElementById('hint').textContent='No se pudo reproducir la referencia sonora.';}});
 document.getElementById('scaleBtn').addEventListener('click',()=>{document.getElementById('scaleMsg').textContent='Ejercicio preparado: '+document.getElementById('scaleType').value+' · Registro '+document.getElementById('voiceType').value+'. La reproducción guiada se añadirá en la etapa de audio.';});
 document.getElementById('chordBtn').addEventListener('click',()=>{document.getElementById('chordMsg').textContent='Guía: '+document.getElementById('chordType').value+'. Canta las notas una por una y después intenta reconocer el acorde.';});
 document.getElementById('uploadBtn').addEventListener('click',()=>document.getElementById('fileInput').click());
