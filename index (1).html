@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#061321">
+<meta name="description" content="VocalEar Studio: entrenamiento auditivo y vocal.">
+<link rel="manifest" href="manifest.json">
+<title>VocalEar Studio</title>
+<style>
+:root{--navy:#061321;--panel:#0b2034;--panel2:#102a42;--gold:#dfb84f;--gold2:#ffe08a;--blue:#36b7ff;--green:#31df91;--red:#ff666d;--text:#f4f7fb;--muted:#a7bbce}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#102b45 0%,var(--navy) 55%,#03080f 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+header{padding:22px 18px 14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #24384a;position:sticky;top:0;background:#061321ed;backdrop-filter:blur(14px);z-index:5}
+.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(145deg,#183b59,#071421);border:1px solid var(--gold);display:grid;place-items:center;font-size:24px;box-shadow:0 0 20px #dcb74c22}
+.brand{font-weight:850;letter-spacing:.3px;font-size:18px}.brand span{color:var(--gold2)}.sub{font-size:10px;letter-spacing:3px;color:var(--muted)}
+main{max-width:760px;margin:auto;padding:18px 15px 96px}.eyebrow{font-size:11px;color:var(--gold);letter-spacing:2px;font-weight:800}.hero{padding:22px 18px;border:1px solid #38506a;border-radius:22px;background:linear-gradient(135deg,#102b44,#081827 65%);box-shadow:0 14px 45px #0005;position:relative;overflow:hidden}.hero:after{content:"♫";position:absolute;right:8px;top:-25px;font-size:150px;color:#dfb84f0c;pointer-events:none}
+h1{font-size:28px;line-height:1.12;margin:10px 0}.hero p,.muted{color:var(--muted);line-height:1.5;font-size:14px}.progressline{height:8px;background:#243a4e;border-radius:9px;overflow:hidden;margin:12px 0}.progressline span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:9px}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:24px 2px 12px}.sectionhead h2{font-size:17px;margin:0}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.card{background:linear-gradient(145deg,#102940,#091a2a);border:1px solid #29445c;border-radius:17px;padding:16px;min-height:126px;color:var(--text);text-align:left;cursor:pointer;transition:.15s}.card:active{transform:scale(.98)}.card .ico{font-size:25px;margin-bottom:10px}.card strong{display:block;font-size:14px}.card small{display:block;color:var(--muted);margin-top:5px;line-height:1.35}.card.gold{border-color:#8b7138}.card.green{border-color:#1c8060}.card.blue{border-color:#216a94}
+.panel{background:#091a2a;border:1px solid #29445c;border-radius:20px;padding:17px;margin-top:15px}.row{display:flex;align-items:center;gap:10px}.between{justify-content:space-between}.btn{border:1px solid #61778a;background:#0b2034;color:var(--text);border-radius:13px;padding:12px 14px;font-weight:750;font-size:14px;cursor:pointer}.btn.goldbtn{background:linear-gradient(135deg,#f3d36f,#c7972c);color:#111722;border:0}.btn.primary{border-color:#2689bf;background:#0b3551}.btn:disabled{opacity:.45}
+nav{position:fixed;bottom:0;left:0;right:0;background:#061321f5;border-top:1px solid #263b4e;display:flex;justify-content:space-around;padding:9px 4px calc(9px + env(safe-area-inset-bottom));z-index:10;backdrop-filter:blur(12px)}nav button{background:none;border:0;color:#9fb2c4;font-size:10px;display:flex;flex-direction:column;gap:4px;align-items:center;min-width:54px}nav button span{font-size:20px}nav button.active{color:var(--gold2)}
+.screen{display:none}.screen.active{display:block}.pill{display:inline-block;border-radius:99px;padding:5px 10px;font-size:11px;font-weight:800;background:#173d31;color:#68f0b2}.noteCircle{width:210px;height:210px;margin:18px auto;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,#103c47,#071521 68%);border:8px solid var(--green);box-shadow:0 0 30px #31df9124}.noteCircle .note{font-size:48px;font-weight:850}.noteCircle .hz{font-size:17px;color:var(--gold2)}.noteCircle .status{font-size:12px;color:var(--green);font-weight:800;margin-top:5px}
+button,select{font:inherit}select{background:#102940;color:white;border:1px solid #36536b;border-radius:10px;padding:10px;width:100%;margin:8px 0}.keys{display:flex;gap:4px;align-items:flex-end;height:115px;margin:18px 0}.key{flex:1;background:#f0f1ee;color:#102033;border-radius:0 0 7px 7px;height:100%;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-weight:800}.key:nth-child(2n){height:70%;background:#cce7f7}.listitem{padding:13px 0;border-bottom:1px solid #20364a;display:flex;gap:10px;align-items:center}.listitem:last-child{border:0}.dot{width:10px;height:10px;border-radius:50%;flex:none}.small{font-size:12px;color:var(--muted)}.metric{font-size:28px;font-weight:850;color:var(--gold2)}footer{text-align:center;color:#60788e;font-size:11px;padding:20px}
+@media(min-width:600px){main{padding-top:26px}.hero{padding:30px}.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header><div class="logo">🎙️</div><div><div class="brand">VocalEar <span>Studio</span></div><div class="sub">ENTRENA · ESCUCHA · CANTA</div></div></header>
+<main>
+<section id="home" class="screen active">
+ <div class="hero"><div class="eyebrow">TU ESTUDIO VOCAL PERSONAL</div><h1>Tu oído. Tu voz.<br><span style="color:var(--gold2)">Tu evolución.</span></h1><p>Entrena afinación, reconoce intervalos y construye una base musical sólida, paso a paso.</p><div class="row between"><span class="small">Ruta de aprendizaje</span><strong style="color:var(--gold2)">30%</strong></div><div class="progressline"><span style="width:30%"></span></div><span class="pill">● Nivel principiante</span></div>
+ <div class="sectionhead"><h2>Tu entrenamiento</h2><span class="small">MÓDULOS</span></div>
+ <div class="cards">
+  <button class="card green" data-go="tuner"><div class="ico">🎙️</div><strong>Afinación en vivo</strong><small>Practica notas y estabilidad vocal.</small></button>
+  <button class="card blue" data-go="theory"><div class="ico">📖</div><strong>Fundamentos</strong><small>Aprende teoría musical desde cero.</small></button>
+  <button class="card gold" data-go="scales"><div class="ico">🎼</div><strong>Escalas</strong><small>Entrena según tu registro vocal.</small></button>
+  <button class="card" data-go="chords"><div class="ico">🎹</div><strong>Acordes</strong><small>Reconoce tríadas y cuatriadas.</small></button>
+  <button class="card" data-go="progress"><div class="ico">📈</div><strong>Mi progreso</strong><small>Consulta tus prácticas y objetivos.</small></button>
+  <button class="card" data-go="teacher"><div class="ico">🛠️</div><strong>Zona docente</strong><small>Vista inicial de administración.</small></button>
+ </div>
+ <div class="panel"><div class="eyebrow">RETO DEL DÍA</div><h3 style="margin:8px 0">Canta una nota estable</h3><p class="muted">Respira con comodidad, escucha la referencia e intenta mantener el tono durante unos segundos.</p><button class="btn goldbtn" data-go="tuner">Comenzar reto →</button></div>
+</section>
+<section id="tuner" class="screen">
+ <div class="eyebrow">PRÁCTICA VOCAL</div><h1>Medidor de afinación</h1><p class="muted">Afinador en vivo: permite el acceso al micrófono y canta una nota sostenida a volumen cómodo.</p>
+ <div class="panel">
+  <div class="row between" style="flex-wrap:wrap"><button class="btn primary" id="micBtn">🎙 Activar micrófono</button><button class="btn" id="pauseBtn">Ⅱ Pausar</button><button class="btn" id="resetBtn">↻ Reiniciar</button><button class="btn" id="refBtn">🔊 Nota A4</button></div>
+  <div class="noteCircle" id="noteCircle"><div class="small">NOTA DETECTADA</div><div class="note" id="note">—</div><div class="hz" id="hz">— Hz</div><div class="status" id="status">MICRÓFONO INACTIVO</div></div>
+  <div class="row" style="justify-content:center;gap:8px;flex-wrap:wrap"><button class="btn" data-tone="flat">↓ Bemol</button><button class="btn goldbtn" data-tone="in" >✓ Afinada</button><button class="btn" data-tone="sharp">↑ Sostenido</button></div>
+  <div class="sectionhead"><h2>Desviación de afinación</h2><strong id="accuracy" style="color:var(--gold2)">— cents</strong></div><div class="progressline"><span id="accuracybar" style="width:0%"></span></div>
+  <p class="small" id="hint">Pulsa «Activar micrófono» y acepta el permiso. Usa auriculares si vas a reproducir audio.</p>
+ </div>
+ <div class="panel"><h3>Consejo vocal</h3><p class="muted">Evita empujar la voz. Mantén una postura cómoda y deja que la respiración apoye la emisión.</p></div>
+</section>
+<section id="theory" class="screen"><div class="eyebrow">APRENDE ANTES DE CANTAR</div><h1>Fundamentos musicales</h1><p class="muted">Lecciones breves para conectar la teoría con la práctica.</p><div class="panel">
+ <div class="listitem"><div class="dot" style="background:var(--green)"></div><div><strong>Anatomía del aparato fonador</strong><div class="small">Cómo trabajan respiración, laringe y resonancia.</div></div></div>
+ <div class="listitem"><div class="dot" style="background:var(--green)"></div><div><strong>Respiración diafragmática</strong><div class="small">Apoyo, postura y flujo de aire.</div></div></div>
+ <div class="listitem"><div class="dot" style="background:var(--gold)"></div><div><strong>Pentagrama y claves</strong><div class="small">Ubica las notas en el sistema musical.</div></div></div>
+ <div class="listitem"><div class="dot" style="background:var(--gold)"></div><div><strong>Tonos, semitonos e intervalos</strong><div class="small">Aprende a escuchar distancias entre notas.</div></div></div>
+ </div></section>
+<section id="scales" class="screen"><div class="eyebrow">ENTRENAMIENTO TONAL</div><h1>Escalas vocales</h1><div class="panel"><label for="scaleType">Tipo de escala</label><select id="scaleType"><option>Mayor</option><option>Menor natural</option><option>Pentatónica</option></select><label for="voiceType">Tu registro vocal</label><select id="voiceType"><option>Soprano</option><option>Mezzo-soprano</option><option>Contralto</option><option selected>Tenor</option><option>Barítono</option><option>Bajo</option></select><div class="keys"><div class="key">C</div><div class="key">D</div><div class="key">E</div><div class="key">F</div><div class="key">G</div><div class="key">A</div><div class="key">B</div></div><p class="muted" id="scaleDesc">Escala de Do mayor · Ejemplo visual de las notas.</p><button class="btn goldbtn" id="scaleBtn">Preparar ejercicio</button><p class="small" id="scaleMsg"></p></div></section>
+<section id="chords" class="screen"><div class="eyebrow">OÍDO ARMÓNICO</div><h1>Laboratorio de acordes</h1><div class="panel"><label for="chordType">Tipo de acorde</label><select id="chordType"><option>Tríada mayor</option><option>Tríada menor</option><option>Cuatriada maj7</option><option>Cuatriada dominante 7</option></select><div class="keys"><div class="key">C</div><div class="key">E</div><div class="key">G</div><div class="key">B</div></div><p class="muted">Primero escucha las notas por separado y después intenta cantar el conjunto. La reproducción sonora se añadirá en la etapa de audio.</p><button class="btn goldbtn" id="chordBtn">Ver guía</button><p class="small" id="chordMsg"></p></div></section>
+<section id="progress" class="screen"><div class="eyebrow">TU EVOLUCIÓN</div><h1>Mi progreso</h1><div class="panel"><div class="row between"><div><div class="small">Sesiones completadas</div><div class="metric" id="sessions">0</div></div><div><div class="small">Mejor precisión demo</div><div class="metric">98%</div></div></div><div class="sectionhead"><h2>Habilidades</h2><span class="small">EJEMPLO</span></div><p class="small">Afinación</p><div class="progressline"><span style="width:72%;background:var(--green)"></span></div><p class="small">Reconocimiento de intervalos</p><div class="progressline"><span style="width:48%;background:var(--blue)"></span></div><p class="small">Lectura musical</p><div class="progressline"><span style="width:30%;background:var(--gold)"></span></div><p class="small">Estos valores son ilustrativos; el guardado real se incorporará más adelante.</p></div></section>
+<section id="teacher" class="screen"><div class="eyebrow">ESPACIO DOCENTE</div><h1>Administración</h1><div class="panel"><h3>Biblioteca de ejercicios</h3><div class="listitem"><div class="dot" style="background:var(--green)"></div><div><strong>Respiración diafragmática</strong><div class="small">Técnica vocal · Principiante</div></div></div><div class="listitem"><div class="dot" style="background:var(--gold)"></div><div><strong>Intervalos de quinta</strong><div class="small">Intervalos · Intermedio</div></div></div><div class="listitem"><div class="dot" style="background:var(--red)"></div><div><strong>Polifonía SATB</strong><div class="small">Polifonía · Avanzado</div></div></div><p class="muted">Esta vista es una maqueta local; la autenticación docente y la carga segura de archivos se implementarán después.</p><button class="btn" id="uploadBtn">Elegir archivo de ejemplo</button><input type="file" id="fileInput" accept=".mid,.midi,.mp3,.wav,.ogg" hidden><p id="fileName" class="small"></p></div></section>
+<footer>VocalEar Studio · Afinador vocal en tiempo real · Azul noche + dorado</footer>
+</main>
+<nav>
+ <button class="active" data-go="home"><span>⌂</span>Inicio</button>
+ <button data-go="theory"><span>▤</span>Teoría</button>
+ <button data-go="tuner"><span>🎙</span>Práctica</button>
+ <button data-go="scales"><span>♫</span>Escalas</button>
+ <button data-go="progress"><span>◴</span>Progreso</button>
+</nav>
+<script>
+const screens=[...document.querySelectorAll('.screen')];
+function go(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('active',b.dataset.go===id));window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+let audioCtx=null, analyser=null, micStream=null, rafId=null, paused=false, lastNote=null;
+const noteNames=['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
+function setPitch(freq){
+ if(!Number.isFinite(freq)||freq<55||freq>1200)return;
+ const midi=Math.round(69+12*Math.log2(freq/440)); const target=440*Math.pow(2,(midi-69)/12);
+ const cents=Math.round(1200*Math.log2(freq/target)); const noteName=noteNames[(midi%12+12)%12]+(Math.floor(midi/12)-1);
+ document.getElementById('note').textContent=noteName;
+ document.getElementById('hz').textContent=freq.toFixed(1)+' Hz';
+ document.getElementById('accuracy').textContent=(cents>0?'+':'')+cents+' cents';
+ const pct=Math.max(3,100-Math.min(100,Math.abs(cents)*2));
+ document.getElementById('accuracybar').style.width=pct+'%';
+ const color=Math.abs(cents)<=10?'#31df91':(cents<0?'#36b7ff':'#ff666d');
+ document.getElementById('noteCircle').style.borderColor=color;
+ document.getElementById('status').style.color=color;
+ document.getElementById('accuracybar').style.background=color;
+ document.getElementById('status').textContent=Math.abs(cents)<=10?'AFINADA':(cents<0?'BAJA · SUBE UN POCO':'ALTA · BAJA UN POCO');
+ document.getElementById('hint').textContent='Tono detectado en directo. Desviación respecto a la nota más cercana: '+(cents>0?'+':'')+cents+' cents.';
+ lastNote=noteName;
+}
+function autoCorrelate(buf, sampleRate){
+ let rms=0; for(let i=0;i<buf.length;i++)rms+=buf[i]*buf[i]; rms=Math.sqrt(rms/buf.length);
+ if(rms<0.012)return -1;
+ let r1=0,r2=buf.length-1,th=0.2;
+ for(let i=0;i<buf.length/2;i++){if(Math.abs(buf[i])<th){r1=i;break;}}
+ for(let i=1;i<buf.length/2;i++){if(Math.abs(buf[buf.length-i])<th){r2=buf.length-i;break;}}
+ const data=buf.slice(r1,r2); if(data.length<3)return -1;
+ const corr=new Float32Array(data.length); for(let lag=0;lag<data.length;lag++){let sum=0;for(let j=0;j<data.length-lag;j++)sum+=data[j]*data[j+lag];corr[lag]=sum;}
+ let d=0;while(d+1<corr.length&&corr[d]>corr[d+1])d++;
+ let max=-1,lagBest=-1;for(let lag=d;lag<corr.length;lag++){if(corr[lag]>max){max=corr[lag];lagBest=lag;}}
+ if(lagBest<=0)return -1;
+ let lag=lagBest;if(lagBest>0&&lagBest<corr.length-1){const a=corr[lagBest-1],b=corr[lagBest],c=corr[lagBest+1];const den=2*(2*b-a-c);if(den)lag+= (c-a)/den;}
+ const f=sampleRate/lag;return f>0?f:-1;
+}
+function clearPitch(){
+ document.getElementById('note').textContent='—';
+ document.getElementById('hz').textContent='— Hz';
+ document.getElementById('accuracy').textContent='— cents';
+ document.getElementById('accuracybar').style.width='0%';
+ document.getElementById('noteCircle').style.borderColor='rgba(255,255,255,.18)';
+ document.getElementById('status').style.color='';
+ document.getElementById('accuracybar').style.background='';
+ document.getElementById('status').textContent='ESPERANDO VOZ';
+}
+function tick(){
+ if(!analyser||paused)return;
+ const buf=new Float32Array(analyser.fftSize);
+ analyser.getFloatTimeDomainData(buf);
+ let rms=0; for(let i=0;i<buf.length;i++)rms+=buf[i]*buf[i]; rms=Math.sqrt(rms/buf.length);
+ const f=rms>=0.025?autoCorrelate(buf,audioCtx.sampleRate):-1;
+ if(f>0){setPitch(f);}
+ else {clearPitch();document.getElementById('hint').textContent='No detecto una voz suficientemente clara. Canta una vocal sostenida un poco más cerca del teléfono; en silencio la nota debe desaparecer.';}
+ rafId=requestAnimationFrame(tick);
+}
+async function stopMic(){if(rafId)cancelAnimationFrame(rafId);rafId=null;if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;}if(audioCtx){await audioCtx.close();audioCtx=null;}analyser=null;document.getElementById('micBtn').textContent='🎙 Activar micrófono';document.getElementById('status').textContent='MICRÓFONO INACTIVO';document.getElementById('note').textContent='—';document.getElementById('hz').textContent='— Hz';document.getElementById('accuracy').textContent='— cents';document.getElementById('accuracybar').style.width='0%';}
+document.getElementById('micBtn').addEventListener('click',async()=>{
+ if(micStream){await stopMic();document.getElementById('hint').textContent='Micrófono detenido.';return;}
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){document.getElementById('hint').textContent='Este navegador no permite usar el micrófono aquí. Abre el enlace HTTPS en Chrome.';return;}
+ try{micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false});audioCtx=new (window.AudioContext||window.webkitAudioContext)();await audioCtx.resume();const src=audioCtx.createMediaStreamSource(micStream);analyser=audioCtx.createAnalyser();analyser.fftSize=4096;analyser.smoothingTimeConstant=0;src.connect(analyser);paused=false;document.getElementById('micBtn').textContent='⏹ Detener micrófono';document.getElementById('pauseBtn').textContent='Ⅱ Pausar';document.getElementById('hint').textContent='Micrófono activo. Canta una nota sostenida; intenta evitar ruido de fondo.';tick();}
+ catch(err){micStream=null;document.getElementById('hint').textContent=err.name==='NotAllowedError'?'Permiso denegado. Permite el micrófono para este sitio desde los ajustes del navegador.':'No pude iniciar el micrófono. Comprueba el permiso y vuelve a intentarlo.';}
+});
+document.getElementById('pauseBtn').addEventListener('click',()=>{if(!micStream){document.getElementById('hint').textContent='Primero activa el micrófono.';return;}paused=!paused;document.getElementById('pauseBtn').textContent=paused?'▶ Continuar':'Ⅱ Pausar';if(paused){if(rafId)cancelAnimationFrame(rafId);}else tick();});
+document.getElementById('resetBtn').addEventListener('click',()=>{if(micStream){paused=false;document.getElementById('pauseBtn').textContent='Ⅱ Pausar';tick();}else{document.getElementById('note').textContent='—';document.getElementById('hz').textContent='— Hz';document.getElementById('status').textContent='MICRÓFONO INACTIVO';document.getElementById('accuracy').textContent='— cents';document.getElementById('hint').textContent='Pulsa «Activar micrófono» para comenzar.';}});
+document.getElementById('refBtn').addEventListener('click',async()=>{try{const ctx=new (window.AudioContext||window.webkitAudioContext)();await ctx.resume();const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sine';osc.frequency.value=440;gain.gain.value=0.12;osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+1);osc.onended=()=>ctx.close();document.getElementById('hint').textContent='Nota de referencia A4 (440 Hz).';}catch(e){document.getElementById('hint').textContent='No se pudo reproducir la referencia sonora.';}});
+document.getElementById('scaleBtn').addEventListener('click',()=>{document.getElementById('scaleMsg').textContent='Ejercicio preparado: '+document.getElementById('scaleType').value+' · Registro '+document.getElementById('voiceType').value+'. La reproducción guiada se añadirá en la etapa de audio.';});
+document.getElementById('chordBtn').addEventListener('click',()=>{document.getElementById('chordMsg').textContent='Guía: '+document.getElementById('chordType').value+'. Canta las notas una por una y después intenta reconocer el acorde.';});
+document.getElementById('uploadBtn').addEventListener('click',()=>document.getElementById('fileInput').click());
+document.getElementById('fileInput').addEventListener('change',e=>{document.getElementById('fileName').textContent=e.target.files[0]?'Archivo seleccionado: '+e.target.files[0].name:'No se seleccionó archivo.'});
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
